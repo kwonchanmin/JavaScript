@@ -122,8 +122,171 @@
 // 유일한 예외가 하나 있다.
 // 객체를 만들 때 이렇게도 만들 수 있다.(예외적인 경우)
 
-const obj1 = Object.create(null) // 객체를 만들 때 내가 상위 prototype객체를 지정해서 만들 수 있다. 
+// const obj1 = Object.create(null) // 객체를 만들 때 내가 상위 prototype객체를 지정해서 만들 수 있다. 
 // null을 주면 상위 prototype객체를 사용하지 않는다는 의미
 // 이렇게 되면 __proto__를 아예 사용할 수 없다.
 // 그래서 __proto__를 코드에 직접적으로 사용하는거는 바람직하지 않다. 권장하지 않는다.
 // 다른 방법으로 사용하세요.. 다른 방안을 제공해준다.
+
+// 객체ㅐ literal로 생성
+// const obj = {};
+
+// const parent = {
+//     x : 1
+// }
+// // 상위 prototype객체를 얻어오기 위해서 아래처럼 하는것은 좋지 않다.
+// // obj.__proto__
+
+// Object.getPrototypeOf(obj) // prototype객체를 획득
+
+// // obj의 prototype객체를 parent로 설정
+// Object.setPrototypeOf(obj, parent);
+
+// console.log(obj.x);
+
+//--------------------------------------------------------------------------
+
+// non - constructor인 arrow function을 하나 만들어서 
+// 진짜 이 함수객체의 prototype객체가 생성되지 않는지 확인해보자
+
+// const person =  (name) => {
+//     this.name = name;
+// }
+
+// // person은 함수객체
+// console.log(person.prototype); // undefined
+
+// 지금까지 한 내용을 바탕으로 전체적인 그림을 그려보자
+
+// function Circle(radius) {
+//     this.radius = radius;
+// }
+
+// Circle.age = 20;
+
+// const circle1 = new Circle(5);
+
+// console.dir(circle1);
+// console.log(circle.age);
+
+//-------------------------------------------------------------------
+
+// 이렇게 쓰는 것은 아닌거 같다. 이렇게 규칙없이 막 쓰면 유지보수에도 도임이 안되는 것 같다. 
+// 좀 정상적으로 규칙있게 써보자.
+// 'use strict'; // 이 문자열을 전역변수 선언하는 곳 또는 함수안에서 제일 위에 써주면 코드를 엄격하고 진지하게 검토하기 때문에 잘못된 코드는 쓸 수 없게 된다.
+//               // 여기서 쓰이면 코드 전체가 엄격 진지
+// function foo() {
+//     'use strict' // 여기서 쓰면 이 지역변수 에서만 엄격 진지
+//     x = 10; // error가 아닌 전역변수로 만들어버린다.
+//             // window객체의 property로 등록
+//             // 암묵적 전역(Implicit Global)이라고 한다.
+//             // 자바스크립트 특유의 특징!
+// }
+
+// foo();
+
+// console.log(x); // 10
+
+// var x = 100;
+
+// if(true) {
+//     let x = '홍길동'
+// }
+
+// function myFunc() {
+//     console.log('hello');
+
+//     function aa() {
+//         console.log('haha');
+//     }
+// }
+
+
+// const x = 1;
+
+// function foo() {
+//     const y = 2;
+
+//     function bar() {
+//         const z = 3;
+//         console.log(x+y+z);
+//     }
+//     bar();
+// }
+// foo();
+
+//-----------------------------------------------------
+
+// const x = 1;
+
+// function outer() {
+//     const x = 10;
+    
+//     const inner = function() {
+//         console.log(x);  
+//     }
+    
+//     return inner; // 함수가 함수를 리턴하고 있다.
+// }
+
+// const result = outer(); 
+
+// result(); // 1이 되어야 우리가 알고 있는 정상적인 execution context stack의 동작이다.
+//           // 그런데 10이 찍힌다. 왜 그럴까? -> 이 현상을 클로져라고 불른다. 
+//           // stack은 지워지지만 렉시컬환경은 남겨두는 것이 클로져, ()안에 상위 레퍼런스를 지칭하는 인자가 있을 경우 
+
+// function foo() {
+//     const x =1;
+//     const y =2;
+
+//     function bar() {
+//         const z = 3;
+
+//         console.log(z);
+//     }
+//     return bar; 
+// }
+
+// const result = foo();
+// result(); // 클로져가 아니다. () 안에 상위 레퍼런스의 x ,y를 지칭하는 인자가 없기 때문이다. x나 y 둘중 하나만이라도 있으면 클로져가 된다.
+
+//---------------------------------------------------------------------------------------------------------------------
+
+// 클로져를 이용한 간단한 응용
+
+// let num =0;
+
+// const increase = function() {
+//     return ++num;
+// }
+// console.log(increase());  // 1
+// console.log(increase());  // 2
+// console.log(increase());  // 3
+
+// num = 10;  // 이렇게 쓰면 num이 10부터 시작하게 된다. num을 변경없이 하고 싶으면.. 밑으로 바꾸자.
+// // 간단한 카운터를 만들 수 있다.
+
+
+
+// const increase = function() {
+//     let num =0;
+//     return ++num;
+// }
+// console.log(increase());  // 1
+// console.log(increase());  // 1
+// console.log(increase());  // 1
+
+// num = 10;
+// // 이렇게 쓸 경우 값이 증가하지 않는 현상이 나타난다. 지역변수인데 계속 유지될려면 클로져를 써보아야된다.
+
+// const increase = (function() {
+//     let num = 0;
+
+//     return function(){
+//         return ++num;
+//     }
+// }()) // 즉시실행함수를 만들어서 실행을 하면 밖에서 num을 바꿀 수 없이 숫자만 증가하게 할 수 있게 된다.
+
+// console.log(increase());
+// console.log(increase());
+// console.log(increase());

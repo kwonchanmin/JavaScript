@@ -1,0 +1,10 @@
+ /* CSS를 작성하면 된다.*/
+        /* CSS 주석*/
+       
+h1 {
+    color :hotpink;
+    background-color: aqua;
+}
+img {
+    width: 200px;    
+}
