@@ -16,9 +16,12 @@ function myFunc() {
         },
         dataType : 'json',
         success : function(data) {
-            let imgurl = data.documents[0].thumbnail_url;
-            let myImg = $('<img/>').attr('src',imgurl);
-            $('div').append(myImg);
+            let arr = data.documents;
+            $.each(arr,function(idx){
+                let imgurl = arr[0].thumbnail_url;
+                let myImg = $('<img/>').attr('src',imgurl);
+            $('div').append(myImg); 
+            })
         },
         error() {
             alert('뭔가 이상해')

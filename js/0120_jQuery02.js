@@ -1,7 +1,10 @@
 
 // 함수선언문 - event handler
 function myFunc() {
-    
+    $(function(){
+        $('#test').text('20230101')
+    })
+   
     // JQuery를 이용해서 AJAX 호출
     // ajax()함수를 이용해서 호출한다.
     // 그런데 호출할 때 여러가지 정보를 넣어야된다.
@@ -34,14 +37,39 @@ function myFunc() {
                 let audi = arr[idx].audiCnt;
                 let openDt = arr[idx].openDt;
                 let tr = $('<tr></tr>');
-                let checkbox = $('<input type="checkbox"/>')
+                let checkbox = $('<input type="checkbox" name="chc_list"/>');
+                let img = $('<td></td>');
+                let movieimg = $("<img />"); 
+                
+                $.ajax({
+                    async : true,
+                    url : 'https://dapi.kakao.com/v2/search/image',
+                    type : 'GET',
+                    headers : {
+                        Authorization: 'KakaoAK 0b5d171371beef2d526a7ae4a14a3eed'
+                    },
+                    data : {
+                        query : title + '포스터'
+                    },
+                    dataType : 'json',
+                    success : function(data) {
+                        let imgurl = data.documents[0].thumbnail_url;
+                        movieimg.attr('src',imgurl);
+                        img.append(movieimg)
+                    },
+                    error() {
+                        alert('뭔가 이상해')
+                    }
+                });
+                
                 let ranktd = $('<td></td>').text(rank);
                 let titletd = $('<td></td>').text(title);
                 let auditd = $('<td></td>').text(audi);
                 let openDttd = $('<td></td>').text(openDt);
-                let btntd = $('<td></td>')
+                let btntd = $('<td></td>');
                 let deleteBtn = $('<button class="btn btn-danger" onclick="deletebtn()" >삭제</button>');
                 tr.append(checkbox);
+                tr.append(img);
                 tr.append(ranktd);
                 tr.append(titletd);
                 tr.append(auditd);
@@ -60,8 +88,9 @@ function myFunc() {
 
 function deletebtn() {
    
-        $('[type=checkbox]:checked').each(function(idx,item){
-            $('td').parent().prop('tr').remove()
+        $("input:checkbox[name='chc_list']:checked").each(function(idx,item){
+            let a = item.parentElement;
+            $(a).remove()
         })
     
 }
