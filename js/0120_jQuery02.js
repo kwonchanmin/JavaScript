@@ -1,9 +1,7 @@
 
 // 함수선언문 - event handler
 function myFunc() {
-    $(function(){
-        $('#test').text('20230101')
-    })
+    
    
     // JQuery를 이용해서 AJAX 호출
     // ajax()함수를 이용해서 호출한다.
@@ -18,7 +16,7 @@ function myFunc() {
         // 서버쪽 프로그램에게 전달할 데이터를 명시한다. 여러개의 데이터를 일반적으로 전달하기 때문에 객체를 이용한다.
         data:{
             key:'6e32c1eecd679c968eec7ee87f533a98',
-            targetDt:'20230119'
+            targetDt:$('#Date').val()
         },
         //type은 AJAX호출의 방식으로 GET, POST를 명시하면 된다.
         type: 'GET',
