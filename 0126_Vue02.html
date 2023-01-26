@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- Vue.js를 이용해 보자.  CDN을 포함시키자 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <global-component></global-component>
+   </div>
+
+   <script>
+
+    let tmp = {
+        myName : '홍길동', // property
+        myFunc : function(){}, // property value를 함수리터럴로 잡은것 method가 아니다. 
+            // comstructor
+        // ES6에서 나온 method 표현방식
+        mySum() {         // method
+            // non-constructor
+        }
+    }
+
+    Vue.component('global-component',{
+        template : '<div>변수의 값은:{{myData}}</div>',
+        //data: function(){
+        //    return {
+        //        myData :200 
+        //    }
+        //}
+        data(){
+            return {
+                myData :200
+            }
+        } // 2가지 방법 중 하나 쓰면 된다.
+    })// 전역컴포넌트는 다양한 곳에서 사용할려고 쓰는 것인데 여러 컴포넌트가 data 내용을 공유해서 쓸 것이라는 문제점이 생겨 data에는 객체가 아닌 
+        //함수로 만들고 리턴을 객체로 하여 계속해서 새로운 객체를 만들게 함으로써 여러 개의 컴포넌트가 공유해서 쓰는 것이 아닌 각각의 리턴 값을 사용하는 것이다.
+
+    new Vue({
+        el : '#app',
+        data : {
+            myName : '홍길동'
+        }
+    })
+   </script>
+</body>
+</html>

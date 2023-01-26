@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- Vue.js를 이용해 보자.  CDN을 포함시키자 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        안녕하세요. 저는 {{ myID }}이고, {{ this.myAge}}살 입니다.
+        <my-component></my-component>
+        <my-local-component></my-local-component>
+   </div>
+
+   <script>
+    // 컴포넌트부터 하나 생성해 보자
+    // 컴포넌트는 자바스크릅트 객체
+
+    let myCmp ={
+        template : '<div>여기는 DIV입니다</div>'
+    }
+    // 전역 컴포넌트 등록
+    // 컴포넌트 이름은 케밥케이스가 권장된다.
+    // 컴포넌트 이름은 2단어 이상으로 구상되는 것을 권장한다.
+    // 만약 케밥케이스로 사용하지 않을거면 파스칼 케이스를 사용하면 된다.
+    // 컴포넌트의 이름은 결국은 HTML 태그명으로 사용된다.
+    Vue.component('my-component',myCmp);
+    //Vue.component('MyComponent');
+
+    let localCmp ={
+        template : '<div>여기는 local DIV입니다</div>'
+    }
+    new Vue({
+        el : '#app',
+        data : {
+            myID : '홍길동',
+            myAge : 20
+        },
+        components : {
+          'my-local-component': localCmp  
+        }
+    })
+   </script>
+</body>
+</html>

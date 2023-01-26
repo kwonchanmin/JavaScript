@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- Vue.js를 이용해 보자.  CDN을 포함시키자 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <child-component v-bind:props-data="massage"></child-component>  <!-- v-bind 뒤에나오는 거는 케밥케이스로 적어줘야하며 
+            밑에서 가져온 카멜케이스로 알아서 맵핑한다.-->
+   </div>
+
+   <script>
+    // 컴포넌트 하나를 전역 컴포넌트로 등록하고
+    Vue.component('child-component',{
+        //data() {
+        //    return {
+        //        myData : 200 
+        //    }
+        //},
+        // props를 이용해서 상위 component가 전달하는 데이터를 받는 변수를 선언한다.(변수는 기본적으로 카멜케이스가 기본이다. 아니면 싹다 소문자로 써야만 한다.)
+        //props : ['propsData','secondData'], // 배열형태로도 사용이 가능하고
+        props: {
+            propsData : String // value 값은 data 타입을 나타내는 생성자 함수
+        }, // 객체형태로도 사용이 가능하다. 객체 형태가 자료를 더욱 자세하게 나오기 때문에 더 많이 사용된다. 
+        template : '<div>여기는 하위컴포넌트다 => {{ propsData }} </div>'
+    })
+    // Vue instance를 하위 캄포넌트로 해당 컴포넌트를 포함시킬꺼다.
+    new Vue({
+        el:'#app',
+        data : {
+            massage : '소리없는 아우성'
+        }
+    })
+    // Vue instance가 상위 component가 되고
+    // 포함되는 전역 컴포넌트는 하위 component가 될 꺼다.
+    // props를 이용하면 상위 component에서 하위 component로 데이터를 전달할 수 있다.
+    // Vue instance의 데이터를 전역 컴포넌트에게 전달할 수 있다.
+    </script>
+</body>
+</html>

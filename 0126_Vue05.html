@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- Vue.js를 이용해 보자.  CDN을 포함시키자 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <child-component v-on:print_msg="printText"></child-component>
+   </div>
+
+   <script>
+    // 전역 component로 만들꺼고 Root component의 하위로 사용할 것이다.
+    Vue.component('child-component',
+        {
+        template : '<button v-on:click="childFunc">클릭클릭</button>',
+        data() {
+            return{
+                myData : 200
+            }
+        },
+        methods :{
+            childFunc : function() {
+                this.$emit('print_msg'
+                ,100
+                ,'Hello'
+                ,{
+                    msg : '전달된 이벤트'
+                }) // $emit  event를 발생시키는 함수
+            }
+        }
+    })
+
+    new Vue({
+        el : '#app',
+        methods: {
+            printText: function(...args) {
+                console.log('이벤트 발생');
+                console.log(args[0]); //100
+                console.log(args[1])  ;// Hello
+                console.log(args[2].msg);  // 전달된 이벤트
+            }
+        }
+    })
+    </script>
+</body>
+</html>

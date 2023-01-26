@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- jQuery 활용을 위한 CDN 설정 -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" 
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU="
+    crossorigin="anonymous">
+    </script>
+
+    <!-- Vue.js를 이용해 보자.  CDN을 포함시키자 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <first-global ></first-global>
+        <second-global v-on:print-msg="printMsg"></second-global> 
+   </div>
+
+   <script>
+    Vue.component('first-global',{
+        template : `<div>
+        <first-local-cmp></first-local-cmp>
+        <second-local-cmp ></second-local-cmp> 
+        </div>`,
+       
+        components :{
+            'first-local-cmp' : {
+                template : '<div> local component C </div>'
+            },
+            'second-local-cmp' :{
+                template : '<div>결과는 : {{  }}</div>',
+            },
+
+        },
+       
+     
+            
+        })
+
+    Vue.component('second-global',{
+        template :'<third-local-cmp v-on:text-msg="textMsg"></third-local-cmp>',
+        components:{
+            'third-local-cmp' : {
+                template : `
+                    <div> 
+                    <input type=text id='inputTxt'> 
+                    <button v-on:click="btnClick">확인</button> 
+                    </div>
+                    `,
+                methods:{
+                    btnClick : function() {
+                        this.$emit('text-msg', $('#inputTxt').val())
+                    }
+                }
+            }
+        },
+        methods:{
+            textMsg : function(...args) {
+                this.$emit('print-msg',args[0])
+            }
+                
+         
+        }
+    })
+
+    new Vue({
+            el : '#app',
+            methods : {
+                printMsg:function(...args){
+                    console.log(args[0]) // text 입력 값 출력
+                    console.log('test') // text 입력 값 출력
+                    
+                }
+            },
+            
+        })
+    </script>
+</body>
+</html>

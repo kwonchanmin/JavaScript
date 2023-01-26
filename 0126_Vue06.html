@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <!-- Vue.js를 이용해 보자.  CDN을 포함시키자 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+</head>
+<body>
+    <!-- EventBus를 이용해서 하위 component에서 상위 component로 event를 전달 -->
+    <div id="app">
+        <child-component></child-component>
+   </div>
+
+   <script>
+        // EventBus를 이용하기 위해서 Vue instance 생성
+        let eventBus = new Vue();
+        // 하위 component로 사용할 전역 component를 등록해보자
+        Vue.component('child-component',{
+            template : '<button v-on:click="btnClick">클릭클릭</button>',
+            methods:{
+                btnClick:function() {
+                    // eventBus에 대해서 event를 발생시킨다.
+                    eventBus.$emit('generateEvent',300) // generateEvent는 generateEvent라는 이벤트의 이름으로 실행한다는 의미, 300은 실행시킬 값.
+                }
+
+            }
+        })
+        
+        // Root Component
+        new Vue({
+            el :'#app',
+            created : function() {
+               // eventBus에 대해서 이벤트를 등록해놓자.
+                eventBus.$on('generateEvent',function(value){ // $on 의 의미는 event를 등록시키는 역할
+                    console.log('이벤트 발생!!', value)
+
+                }) 
+            }
+        })
+    </script>
+</body>
+</html>
