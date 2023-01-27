@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- Vue.js를 위한 CDN-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <!-- Vue 라우터를 위한 CDN -->
+    <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+    <!-- Axios를 위한 CDN -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        .myStyle{
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div v-bind:id="myID">소리벗고 팬티질러!!</div>
+        <div>텍스트 연동은 : {{ massage }}</div>
+        <!-- <div v-bind:class="stylevalue">스타일 연동이다.</div>  v-bind는 생략이 가능하고 :는 남겨줘야된다. -->
+        <div :class="stylevalue">스타일 연동이다.</div> 
+        <my-component v-bind:my-data="massage"></my-component>
+    </div>
+
+    <script>
+        // component를 생성하면서 전역으로 등록
+        Vue.component('my-component',{
+            props:['myData'],
+            template:'<div>전달된 데이터 :{{ myData }}</div>',
+        });
+        new Vue({
+            data:{
+                massage : '소리벗고 팬티질러!',
+                myID: 'myDiv',
+                stylevalue: 'myStyle'
+            }
+        }).$mount('#app')
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- Vue.js를 이용해 보자.  CDN을 포함시키자 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <!-- Vue 라우터를 위한 CDN을 포함시켜야 된다. -->
+    <!-- 한가지 조심해야하는 건 web에서 Vue 라우터 CDN을 검색하면 Vue.js 3.x 버전의 Vue 라우터 CDN을 찾게된다. -->
+    <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <router-view name="header"></router-view>
+        <router-view></router-view>  <!-- 이름을 안주는 것은 default 이고 하나만 존재 가능하다.-->
+        <router-view name="footer"></router-view>
+    </div>
+
+   <script>
+        // 3개의 component를 만들어보자.
+        let headerCmp ={
+            template :'<div>여기는 Header </div>'
+        }
+        let bodyCmp ={
+            template :'<div>여기는 Body </div>'
+        }
+        let footerCmp ={
+            template :'<div>여기는 Footer </div>'
+        }
+
+        let router = new VueRouter({
+            routes : [{
+                path : '/',  // 지금은 하나의 url에 3개의 컴포넌트를 쓸 것이기 때문에 components를 사용해야 된다.
+                components : {
+                    header : headerCmp,
+                    footer : footerCmp,
+                    default : bodyCmp // bodyCmp는 router-view 부분에 이름이 없는 default이기 때문에 default로 넣어준다.
+                }
+            }]
+        })
+
+        new Vue({
+            router
+        }).$mount('#app')
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- Vue.js를 이용해 보자.  CDN을 포함시키자 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <!-- Vue 라우터를 위한 CDN을 포함시켜야 된다. -->
+    <!-- 한가지 조심해야하는 건 web에서 Vue 라우터 CDN을 검색하면 Vue.js 3.x 버전의 Vue 라우터 CDN을 찾게된다. -->
+    <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+</head>
+<body>
+    <div id="app">
+        <router-view></router-view>
+   </div>
+
+   <script>
+    // member component를 만들어보자
+    let memberComponent = {
+        template: `<div>
+            여기는 member component 입니다. 
+            <router-view></router-view>
+        </div>`
+    }
+
+    // profile component를 만들어보자.
+    let profileComponent = {
+        template : '<div> 여기는 profile component </div>'
+    }
+
+    // post component도 만들어 보자.
+    let postComponent ={
+        template : ' <div>여기는 post component</div>'
+    }
+
+    // 컴포넌트를 다 만들었으니 이제 경로를 설정하러 가보자.
+    // 어떤 경로가 어떤 컴포넌트와 매칭되는지를 설정
+    let routes =[{
+        path : '/member',
+        component : memberComponent,
+        children:[{       // Nested Routing을 쓸 때는 children을 써준다 자식이라는 의미
+            path:'profile',  // /member/profile ,children에서는 자동으로 주소에 / 붙음으로 path의 '' 안에 / 를 넣지않고 명시해주면 된다.
+            component : profileComponent
+        },{
+            path:'post',
+            component : postComponent
+        }]
+    }]
+    
+    // 경로를 다 만들었으면 그 다음에는 VueRouter객체를 생성
+    let router = new VueRouter({
+        routes 
+    })
+
+    new Vue({
+        router
+    }).$mount('#app')
+    // 이렇게만 해서 실행하면 빈 화면이 나오고 주소창에 우리가 설정한 member를 입력하면 member로 이동
+    </script>
+</body>
+</html>

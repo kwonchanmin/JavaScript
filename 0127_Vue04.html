@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- Vue.js를 위한 CDN-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <!-- Vue 라우터를 위한 CDN -->
+    <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+    <!-- Axios를 위한 CDN -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <button v-on:click="myFunc">AJAX 호출</button>
+    </div>
+
+    <script>
+        new Vue({
+            methods:{
+                myFunc : function() {
+                    // Axios를 이용한 AJAX 호출
+                    axios({
+                        url:'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json',
+                        method : 'GET',
+                        // JQuery에서는 data를 통해 정보를 넘겨줬는데 Vue 에서 data는 POST,PUT,DELETE 메소드 방식에만 적용이 가능
+                        // Vue 에서는 params가 URL parameter를 치징한다. Query String으로 전달되는 데이터를 의미하며 당연히 GET방식
+                        // JQuery:data = Vue:params
+                        params:{
+                            key:'6e32c1eecd679c968eec7ee87f533a98',
+                            targetDt : '20230101'
+                        },
+                        responseType: 'json' // 기본값
+                    }).then(function(result) {  // .then = 성공했을 때 호출
+                        console.log(result.data)
+                    }).catch(function() { // .catch() = 실패했을 때 호출
+                        alert('개망')
+                    });   
+                }
+            }
+        }).$mount('#app')
+    </script>
+</body>
+</html>

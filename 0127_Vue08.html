@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- Vue.js를 위한 CDN-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <!-- Vue 라우터를 위한 CDN -->
+    <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+    <!-- Axios를 위한 CDN -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+</head>
+<body>
+    <div id="app">
+        <div v-bind:id="myID">소리벗고 팬티질러!</div>
+        <!-- 만약 v-if의 값이 false면 DOM(요소)에서 제거 -->
+        <a v-if="flag" href="http://www.naver.com">GO Naver</a> 
+        <br><br>
+        <!-- 만약 v-show의 값이 false이면 화면에서 안보이게 처리.DOM에는 존재한다. -->
+        <a v-show="flag" href="http://www.kakako.com">GO Kakao</a>
+        <br><br>
+        <input type="text" v-model="myTxt">
+        <button v-on:click="myFunc">입력상자안의 내용을 알아보자.</button>
+        <br><br>
+        <ul>
+            <li v-for="name in names">{{name}}</li> <!-- for구문은 names안의 내용을 하나씩 꺼내 name에 넣으라는 의미- 결국 name에 정보값이 들어있다. 
+            for문은 완성된 데이터를 component가 들고 있어야지만 쓸 수 있다.-->
+        </ul>
+    </div>
+
+    <script>
+       new Vue({
+        data : {
+            flag: false ,
+            myID: 'myDIV',
+            myTxt:'',
+            names:['홍길동','신사임당','강감찬']
+        },
+        methods :{
+            myFunc:function() {
+                alert(this.myTxt)
+            }
+        },
+        watch:{
+            myTxt:function(data) {
+                console.log(data + '로 변경') // data를 쓰면 this.myTxt를 안써도 된다. 
+            }
+        }
+       }).$mount('#app');
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- Vue.js를 위한 CDN-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <!-- Vue 라우터를 위한 CDN -->
+    <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+    <!-- Axios를 위한 CDN -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
+</head>
+<body>
+    <div id="app">
+        <div>{{ massage }}</div>
+        <div>{{ massage + "!!!"}}</div>
+       <!-- 아래에 있는 표햔은 가능은 하지만 좋지는 않는다.
+        {{ }}는 가능한 값만 꽝 찍는 역할을 하는게 좋다. -->
+        <!-- 그러면 아래의 경우는 함수를 따로 만들어서 사용하는 것이 좋다. -->
+        <div>{{ massage.split('').reverse().join('') }}</div> <!-- split('')는 문자를 한글자씩 짜른다. reverse()는 역순으로 뒤집는다.
+            join('')는 문자열을 다시 합친다.  -->
+        <!-- <div>{{ let a = 100;}}</div> 사용 불가   -->
+        <!-- <div>{{ if(true) {return 100} }}</div> 이것도 사용불가 -->
+        <div>{{ false ? 10 : 100 }}</div> <!-- ?는 사망연산자로서 ? 앞이 true일 경우 : 의 앞인 10이 나오고 false인 경우 :의 뒤에인 100이 선택된다. -->
+        <div>{{ myFunc() }}</div>
+        <div>{{ myFunc() }}</div>
+        <!-- 위에 있는 코드는 좋지 않아서 함수로 따로 만들어 볼것이다.  -->
+
+        <!-- 이런 함수와 약간 다른 성능이 좋은 기능이 있다. -->
+        <div>{{ mycomputed }}</div> <!-- 호출시 함수로 호출하는 것이 아니라 ()를 빼고 호출 -->
+        <div>{{ mycomputed }}</div>
+    </div>
+
+    <script>
+       new Vue({
+        data:{
+            massage : '소리벗고 팬티질러'
+        },
+        methods: {
+            myFunc: function() {
+                console.log('함수호출');
+                return this.massage.split('').reverse().join('')
+            }
+        },
+        computed:{  // method와 거의 비슷한 기능들을 하지만 조금 다르다. 다른점은 computed는 데이터가 실행되기 전에 먼저 실행이 된다.
+            // 데이터가 바뀌는 시점에 미리 안의 정보를 가지고 자기 혼자 계산을 하고 저장을 해놓는다. 
+            // 따라서 데이터가 변경되거나 처음 시작할 때를 제외하고는 반복해서 호출되지는 않는다. 
+            // 따라서 computed는 함수가 아니라 변수다.
+            mycomputed : function() {
+                console.log('호출');
+                return this.massage.split('').reverse().join('')
+            }
+        }
+       }).$mount('#app')
+    </script>
+</body>
+</html>

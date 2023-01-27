@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+   <!-- Vue.js를 위한 CDN-->
+   <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+   <!-- Vue 라우터를 위한 CDN -->
+   <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+   <!-- Axios를 위한 CDN -->
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+  <div id="movie">
+    <input type="text">
+    <button v-on:click="movieSearch">검색</button>
+    <tr>
+      <td v-for></td>
+    </tr>
+
+  </div>
+
+  <script>
+    new Vue({
+      methods:{
+          movieSearch:function() {
+              // 영화진흥위원회 api 가져오기.
+            axios({
+              url:'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json',
+              method : 'GET',
+             params:{
+                 key:'6e32c1eecd679c968eec7ee87f533a98',
+                targetDt : '20230101'
+              },
+              responseType: 'json', // 기본값
+              timeout:3000,                        
+           }).then(function(result) { // 전역 함수를와 지역함수를 잡아서 하던가 <div>를 만들어서 tag를 쓸 것인가..
+              this.arr= result.data.boxOfficeResult.dailyBoxOfficeList.length
+              for(let i=0; i<=arr;i++){
+              }
+              console.log(result.data.boxOfficeResult.dailyBoxOfficeList[i].movieNm)
+              
+                //console.log(arr)
+               
+              
+              
+           }).catch(function() {
+              alert('ㅅㅂ')
+           })
+          }
+      },
+      data:{
+          
+      }
+   }).$mount('#movie')
+  </script>
+</body>
+</html>

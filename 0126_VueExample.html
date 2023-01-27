@@ -15,15 +15,15 @@
 </head>
 <body>
     <div id="app">
-        <first-global ></first-global>
+        <first-global v-bind:msg-data="msg"></first-global>
         <second-global v-on:print-msg="printMsg"></second-global> 
    </div>
 
    <script>
     Vue.component('first-global',{
-        template : `<div>
+        template : `<div> 
         <first-local-cmp></first-local-cmp>
-        <second-local-cmp ></second-local-cmp> 
+        <second-local-cmp v-bind:msg-print="msgData"></second-local-cmp> 
         </div>`,
        
         components :{
@@ -31,11 +31,18 @@
                 template : '<div> local component C </div>'
             },
             'second-local-cmp' :{
-                template : '<div>결과는 : {{  }}</div>',
+                template : '<div>결과는 : {{ msgPrint }}</div>',
+                props :{
+                    msgPrint : String
+                }
             },
 
         },
+        props:{
+            msgData : String
+        }
        
+        
      
             
         })
@@ -70,12 +77,12 @@
             el : '#app',
             methods : {
                 printMsg:function(...args){
-                    console.log(args[0]) // text 입력 값 출력
-                    console.log('test') // text 입력 값 출력
-                    
+                    this.msg = args[0] // 데이터 표현을 할 때 this. 을 안써주면 잘못된 방향으로 실행됨
                 }
             },
-            
+            data :{
+                msg :''
+            }
         })
     </script>
 </body>
