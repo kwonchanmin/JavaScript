@@ -65,19 +65,17 @@
             }
         },
         methods:{
-            textMsg : function(...args) {
-                this.$emit('print-msg',args[0])
+            textMsg : function(data) {
+                this.$emit('print-msg',data)
             }
-                
-         
         }
     })
 
     new Vue({
             el : '#app',
             methods : {
-                printMsg:function(...args){
-                    this.msg = args[0] // 데이터 표현을 할 때 this. 을 안써주면 잘못된 방향으로 실행됨
+                printMsg:function(data){
+                    this.msg = data // 데이터 표현을 할 때 this. 을 안써주면 잘못된 방향으로 실행됨
                 }
             },
             data :{
