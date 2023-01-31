@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://127.0.0.1:5500/0127_VueBoxOffice_ver3.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Document</title>
+   <!-- Vue.js를 위한 CDN-->
+   <script src="./Document_files/vue.js"></script>
+   <!-- Vue 라우터를 위한 CDN -->
+   <script src="./Document_files/vue-router.js"></script>
+   <!-- Axios를 위한 CDN -->
+   <script src="./Document_files/axios.min.js"></script>
+
+</head>
+<body>
+  <div id="movie"><h1>BoxOffice Moive Rank</h1> <label>원하는 날짜를 선택하세요 :
+        <input type="text"></label> <button>검색</button></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>순위</th>
+        <th>포스터</th>
+        <th>제목</th>
+        <th>관람객 수</th>
+        <th>개봉일</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, i) in movieList">
+        <td>{{ list }}</td>
+        <td>{{ poster }}</td>
+        <td>{{ item.movieNm }}</td>
+        <td>{{ item.audiAcc }}</td>
+        <td>{{ item.openDt }}</td>
+      </tr>
+      
+    </tbody>
+  </table>
+
+  <script>
+    Vue.component('movie-info',{
+      template:'<td>{{movieList}}</td>',  
+      props:{
+          movieList:Array,
+          
+        }
+
+    })
+    new Vue ({
+      data() {
+        return{
+          list:[] // 빈 배열 안에 입력한 날짜 데이터를 가져온다. 현재는 20230101 자료들
+          
+
+        }
+      },
+      
+      methods:{
+        myFunc : function() {
+          let info =this;
+          // Axios를 이용한 AJAX 호출
+          axios({
+            url:'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json',
+            method : 'GET',
+            // JQuery에서는 data를 통해 정보를 넘겨줬는데 Vue 에서 data는 POST,PUT,DELETE 메소드 방식에만 적용이 가능
+            // Vue 에서는 params가 URL parameter를 치징한다. Query String으로 전달되는 데이터를 의미하며 당연히 GET방식
+            // JQuery:data = Vue:params
+            params:{
+              key:'6e32c1eecd679c968eec7ee87f533a98',
+              targetDt : '20230101'
+            },
+            responseType: 'json' // 기본값
+          }).then(function(res){  // .then = 성공했을 때 호출
+           // this.list = result.data.boxOfficeResult.dailyBoxOfficeList;
+           info.list = res.data.boxOfficeResult.dailyBoxOfficeList
+            
+          }).catch(function(err) { // .catch() = 실패했을 때 호출
+            console.log(err)
+            alert('시발?')
+          });   
+        },
+       
+        },
+       
+       
+    }).$mount('#movie')
+  </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+
+</body></html>

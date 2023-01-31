@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+   <!-- Vue.js를 위한 CDN-->
+   <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+   <!-- Vue 라우터를 위한 CDN -->
+   <script src="https://unpkg.com/vue-router@3.5.3/dist/vue-router.js"></script>
+   <!-- Axios를 위한 CDN -->
+   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Bootstrap CDN-->
+    <link rel="StyleSheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <!-- Bootstrap modal CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <div id="movie">
+      <!-- Modal -->
+      <div class="modal" id="moviemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title"> {{  }} </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div v-for="info in infolist">
+                <tr> {{ info }} </tr>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div v-for="info in infolist">div 출력 {{ info }}</div> -->
+
+      <h1>BoxOffice Moive Rank</h1>
+        <tr>
+          <label>원하는 날짜를 선택하세요 :
+          <input type="date" v-model="searchDate">
+          </label>
+        <button type="button" class="btn btn-dark" v-on:click="myFunc">검색</button>
+      </tr>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>선택</th>
+            <th>순위</th>
+            <th>포스터</th>
+            <th>제목</th>
+            <th>관람객 수</th>
+            <th>개봉일</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          
+          
+        </div>
+        <div>내가 선택한 영화 목록 : {{ checklist }}</div>
+        <tr v-for="item in list" :key="item.rank">
+          <button type="button" class="btn btn-danger" v-on:click="selDelete">선택삭제</button>
+          <td ><input type="checkbox" :value=item.movieNm v-model="checklist" ></td>
+          <td>{{ item.rank }}</td>
+          <td><img v-bind:src="imgurl[item.rnum - 1]" /></td>
+          <td > <a href="#" data-bs-toggle="modal" data-bs-target="#moviemodal" v-on:click="searchInfo(item.movieCd)">{{ item.movieNm }}</a> </td>
+          <td>{{ item.audiAcc }}</td>
+          <td>{{ item.openDt }}</td>
+          <td><button type="button" class="btn btn-danger" v-on:click="removeRow(item.rank)" >삭제</button></td>
+        </tr>
+        
+      </tbody>
+    </table>
+    
+    
+  </div>
+  
+    
+  <script>
+    new Vue ({
+      data: {
+        list: [],
+        imgurl : [],
+        searchDate:'',
+        checklist : [],
+        infolist : []
+      },
+      
+      methods:{
+        myFunc : function() {
+          // Axios를 이용한 AJAX 호출
+          let cmp = this;
+          axios({
+            url:'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json',
+            method : 'GET',
+            // JQuery에서는 data를 통해 정보를 넘겨줬는데 Vue 에서 data는 POST,PUT,DELETE 메소드 방식에만 적용이 가능
+            // Vue 에서는 params가 URL parameter를 치징한다. Query String으로 전달되는 데이터를 의미하며 당연히 GET방식
+            // JQuery:data = Vue:params
+            params:{
+              key:'6e32c1eecd679c968eec7ee87f533a98',
+              targetDt :this.searchDate.replace(/-/g,'')
+            },
+            responseType: 'json' // 기본값
+          })
+          .then( res => {  // .then = 성공했을 때 호출
+            cmp.list = res.data.boxOfficeResult.dailyBoxOfficeList;
+            console.log(cmp.list)
+            let img = this;
+            // foreach문을 사용하는데 foreach문은 jQuery의 $each문과 비슷한 형태이며 문장에 대해 설명을 적어보면 
+            cmp.list.forEach(function(item, idx) {  // cmp.list는 function의 item으로 명시, idx는 증가하는 숫자를 의미한다.
+              // 밑에 있는 문장들을 한번씩 돌려 필요한 만큼 한번한번 돌리므로 이미지가 포스터 수에 맞게 들어간다.
+              axios({
+                url:'https://dapi.kakao.com/v2/search/image',
+                method : 'GET',
+                params:{
+                  query : item.movieNm+ '포스터'
+                },
+                headers : {    
+                  Authorization: 'KakaoAK 0b5d171371beef2d526a7ae4a14a3eed'
+                }
+              })
+              .then(function(result) {
+                Vue.set(img.imgurl, idx, result.data.documents[2].thumbnail_url); // Vue.set은 내가 컴퓨터한테 선언하는 것이다. 
+              })
+              .catch(function(err) {
+                console.log(err)
+              })
+            });
+            
+          })
+          .catch(function(err) { // .catch() = 실패했을 때 호출
+            console.log(err)
+            alert('날짜 고를 줄 모르냐?')
+          });   
+        },
+       
+        removeRow : function(rank) {
+          this.list = this.list.filter((e) => e.rank !== rank);
+          this.checklist = [];
+        },
+        selDelete : function() {
+          this.list = this.list.filter(
+           (item) => !this.checklist.includes(item.movieNm)
+          );
+          this.checklist = [];
+        },
+        searchInfo:function(movieCd) {
+          let esc = this;
+          axios({
+            url:'http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json',
+            method : 'GET',
+            params:{
+              key:'6e32c1eecd679c968eec7ee87f533a98',
+              movieCd : movieCd
+            },
+            responseType: 'json' // 기본값
+          })
+          .then(function(res){
+            esc.infolist = res.data.movieInfoResult.movieInfo
+            console.log(esc.infolist)
+            esc.infolist = [
+                            '제작년도 : ' + esc.infolist.prdtYear,
+                            '제작국가 : ' + esc.infolist.nations[0].nationNm,
+                            '감독 : ' + esc.infolist.directors[0].peopleNm,
+                            '배우 : ' + esc.infolist.actors[0].peopleNm,
+                            '상영시간 : ' + esc.infolist.showTm]
+          })    
+          .catch(function(err){
+            console.log(err)
+          })
+        }
+
+      }
+       
+    }).$mount('#movie')
+  </script>
+</body>
+</html>

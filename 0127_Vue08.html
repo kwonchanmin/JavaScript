@@ -24,7 +24,7 @@
         <button v-on:click="myFunc">입력상자안의 내용을 알아보자.</button>
         <br><br>
         <ul>
-            <li v-for="name in names">{{name}}</li> <!-- for구문은 names안의 내용을 하나씩 꺼내 name에 넣으라는 의미- 결국 name에 정보값이 들어있다. 
+            <li v-for="(name) in names">{{name}}</li> <!-- for구문은 names안의 내용을 하나씩 꺼내 name에 넣으라는 의미- 결국 name에 정보값이 들어있다. 
             for문은 완성된 데이터를 component가 들고 있어야지만 쓸 수 있다.-->
         </ul>
     </div>
