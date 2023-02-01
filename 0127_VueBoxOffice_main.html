@@ -11,10 +11,48 @@
    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- Bootstrap CDN-->
     <link rel="StyleSheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+     <!-- Bootstrap modal CDN -->
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" 
+     integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
 
 </head>
-<body>
+<body class="d-flex h-100 text-bg-dark">
     <div id="movie">
+      <!-- Modal -->
+      <div class="modal" id="moviemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title"> {{ detailInfo.movieNm }} </h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div>
+                <div> 
+                  <div> 제작년도 :{{ detailInfo.prdtYear }}</div>
+                </div>
+                <div v-for="nation in detailInfo.nations">  
+                  <div> 제작국가 :{{ nation.nationNm }}</div>
+                </div>
+                <div v-for="director in detailInfo.directors"> 
+                  <div> 감독 :{{ director.peopleNm }}</div>
+                </div>
+                <div v-for="actor in detailInfo.actors"> 
+                  <div> 배우 :{{ actor.peopleNm }}</div>
+                </div>
+                  <div> 상영시간 :{{ detailInfo.showTm }}</div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
       <h1>BoxOffice Moive Rank</h1>
         <tr>
           <label>원하는 날짜를 선택하세요 :
@@ -44,7 +82,7 @@
             <td>{{ item.rank }}</td>
             <td><img v-bind:src="imgurl[item.rnum - 1]" /></td> <!-- item.rnum의 의미는 숫자를 나타내는 것이 필요한데 index를 잡지 않았기 때문에 
               영화 목록에 있는 rank or rnum으로 숫자를 입력해주는 것이지만 1부터 시작하기 때문에 0부터 시작하기 위해 -1을 해준것이다.-->
-            <td>{{ item.movieNm }}</td>
+            <td><a href="#" data-bs-toggle="modal" data-bs-target="#moviemodal" v-on:click="searchInfo(item.movieCd)"> {{ item.movieNm }} </a></td>
             <td>{{ item.audiAcc }}</td>
             <td>{{ item.openDt }}</td>
             <td><button type="button" class="btn btn-danger" v-on:click="removeRow(item.rank)" >삭제</button></td>
@@ -69,6 +107,7 @@
         imgurl : [],
         searchDate:'',
         checklist : [],
+        detailInfo : [],
         
       },
       
@@ -133,6 +172,24 @@
            (item) => !this.checklist.includes(item.movieNm) //item안의 배열과 checklist를 통해 선택한 영화이름이 다르면 필터링 해서 출력하라는 뜻
           );
           this.checklist = [];
+        },
+        searchInfo:function(movieCd) {
+          let esc = this;
+          axios({
+            url:'http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json',
+            method : 'GET',
+            params:{
+              key:'6e32c1eecd679c968eec7ee87f533a98',
+              movieCd : movieCd
+            },
+            responseType: 'json' // 기본값
+          })
+          .then(function(res){
+            esc.detailInfo = res.data.movieInfoResult.movieInfo
+          })    
+          .catch(function(err){
+            console.log(err)
+          })
         }
 
       }
