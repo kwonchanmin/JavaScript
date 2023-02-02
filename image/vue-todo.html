@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)http://localhost:8080/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <!-- 우리는 반응형 웹 형태로 구현할 꺼다. -->
+    <!-- mobile 형태로 구현할꺼기 때문에 meta 설정이 들어간다. -->
+    <!-- viewport 설정을 해야 한다. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 웹 아이콘을 사용할꺼다. 가장 대표적인 fontawesome을 이용 -->
+    <link rel="stylesheet" href="./vue-todo_files/all.min.css">
+
+    <!-- 기본적인 favicon 설정 -->
+    <link rel="shortcut icon" href="http://localhost:8080/src/assets/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="http://localhost:8080/src/assets/favicon.ico" type="image/x-icon"> 
+    
+    <!-- 폰트도 웹 폰트를 이용할 수 있다 -->
+    <link href="./vue-todo_files/css" rel="stylesheet">
+
+    <title>vue-todo</title>
+  <style type="text/css">
+body {
+    text-align: center;
+    background-color: #F6F6F8;
+}
+input {
+    border-style: groove;
+    width: 200px;
+}
+button {
+    border-style: groove;
+}
+.shadow {
+    box-shadow: 5px 10px 10px rgba(0,0,0, 0.03);
+}
+
+/*# sourceURL=/Users/kwonchanmin/Desktop/JavaScript/VUE-TODO/src/src/App.vue */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9rd29uY2hhbm1pbi9EZXNrdG9wL0phdmFTY3JpcHQvVlVFLVRPRE8vc3JjL3NyYy9BcHAudnVlIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7QUFnQ0E7SUFDQSxtQkFBQTtJQUNBLDBCQUFBO0NBQ0E7QUFFQTtJQUNBLHFCQUFBO0lBQ0EsYUFBQTtDQUNBO0FBRUE7SUFDQSxxQkFBQTtDQUNBO0FBRUE7SUFDQSw0Q0FBQTtDQUNBIiwiZmlsZSI6IkFwcC52dWUiLCJzb3VyY2VzQ29udGVudCI6WyI8dGVtcGxhdGU+XG4gIDxkaXYgaWQ9XCJhcHBcIj5cbiAgICA8VG9kb0hlYWRlcj48L1RvZG9IZWFkZXI+XG4gICAgPFRvZG9JbnB1dD48L1RvZG9JbnB1dD5cbiAgICA8VG9kb0xpc3Q+PC9Ub2RvTGlzdD5cbiAgICA8VG9kb0Zvb3Rlcj48L1RvZG9Gb290ZXI+XG4gIDwvZGl2PlxuPC90ZW1wbGF0ZT5cblxuPHNjcmlwdD5cbmltcG9ydCBUb2RvSGVhZGVyIGZyb20gJy4vY29tcG9uZW50cy9Ub2RvSGVhZGVyLnZ1ZSc7XG5pbXBvcnQgVG9kb0lucHV0IGZyb20gJy4vY29tcG9uZW50cy9Ub2RvSW5wdXQudnVlJztcbmltcG9ydCBUb2RvTGlzdCBmcm9tICcuL2NvbXBvbmVudHMvVG9kb0xpc3QudnVlJztcbmltcG9ydCBUb2RvRm9vdGVyIGZyb20gJy4vY29tcG9uZW50cy9Ub2RvRm9vdGVyLnZ1ZSc7XG5cbmV4cG9ydCBkZWZhdWx0IHtcbiAgIGNvbXBvbmVudHM6e1xuICAgIFRvZG9IZWFkZXIsXG4gICAgVG9kb0lucHV0LFxuICAgIFRvZG9MaXN0LFxuICAgIFRvZG9Gb290ZXJcbiAgIH0sXG4gICBkYXRhKCkge1xuICAgIHJldHVybiB7XG4gICAgICBtYXNzYWdlIDogXCLshozrpqzrspfqs6Ag7Yys7Yuw7KeI65+sISFcIlxuICAgIH1cbiAgIH1cbn1cbjwvc2NyaXB0PlxuXG5cbjxzdHlsZT5cbmJvZHkge1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiAjRjZGNkY4O1xufVxuXG5pbnB1dCB7XG4gICAgYm9yZGVyLXN0eWxlOiBncm9vdmU7XG4gICAgd2lkdGg6IDIwMHB4O1xufVxuXG5idXR0b24ge1xuICAgIGJvcmRlci1zdHlsZTogZ3Jvb3ZlO1xufVxuXG4uc2hhZG93IHtcbiAgICBib3gtc2hhZG93OiA1cHggMTBweCAxMHB4IHJnYmEoMCwwLDAsIDAuMDMpO1xufVxuPC9zdHlsZT5cbiJdLCJzb3VyY2VSb290IjoiIn0= */</style><style type="text/css">
+h1[data-v-148dd9ba] {
+  color: #2F3B52;
+  font-weight: 900;         /* 텍스트 굵기 */
+  margin: 2.5rem 0 1.5rem
+}
+
+/*# sourceURL=/Users/kwonchanmin/Desktop/JavaScript/VUE-TODO/src/components/src/components/TodoHeader.vue */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9Vc2Vycy9rd29uY2hhbm1pbi9EZXNrdG9wL0phdmFTY3JpcHQvVlVFLVRPRE8vc3JjL2NvbXBvbmVudHMvc3JjL2NvbXBvbmVudHMvVG9kb0hlYWRlci52dWUiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IjtBQWFBO0VBQ0EsZUFBQTtFQUNBLGlCQUFBLFNBQUEsWUFBQTtFQUNBLHVCQUFBO0NBQ0EiLCJmaWxlIjoiVG9kb0hlYWRlci52dWUiLCJzb3VyY2VzQ29udGVudCI6WyI8dGVtcGxhdGU+XG4gICAgPGhlYWRlcj5cbiAgICAgICAgPGgxPiEh7ZmY7JiB7ZWp64uI64ukISE8L2gxPlxuICAgIDwvaGVhZGVyPlxuPC90ZW1wbGF0ZT5cblxuPHNjcmlwdD5cbmV4cG9ydCBkZWZhdWx0IHtcbiAgIFxufVxuPC9zY3JpcHQ+XG5cbjxzdHlsZSBzY29wZWQ+XG5oMSB7XG4gIGNvbG9yOiAjMkYzQjUyO1xuICBmb250LXdlaWdodDogOTAwOyAgICAgICAgIC8qIO2FjeyKpO2KuCDqtbXquLAgKi9cbiAgbWFyZ2luOiAyLjVyZW0gMCAxLjVyZW1cbn1cbjwvc3R5bGU+XG4iXSwic291cmNlUm9vdCI6IiJ9 */</style><style type="text/css">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*# sourceURL=undefined */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJUb2RvSW5wdXQudnVlIiwic291cmNlUm9vdCI6IiJ9 */</style><style type="text/css">
+
+
+
+
+
+
+
+
+
+
+
+
+/*# sourceURL=undefined */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJUb2RvTGlzdC52dWUiLCJzb3VyY2VSb290IjoiIn0= */</style><style type="text/css">
+
+
+
+
+
+
+
+
+
+
+
+
+/*# sourceURL=undefined */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJUb2RvRm9vdGVyLnZ1ZSIsInNvdXJjZVJvb3QiOiIifQ== */</style></head>
+  <body>
+    <div id="app"><header data-v-148dd9ba=""><h1 data-v-148dd9ba="">!!환영합니다!!</h1></header> <div data-v-2fff0124=""><input data-v-2fff0124="" type="text" placeholder="할 일을 입력하시오"> <button data-v-2fff0124="">추가</button></div> <div data-v-3de47834="">List</div> <div data-v-56f2a19e="">Footer</div></div>
+    <script src="./vue-todo_files/build.js"></script>
+  
+
+</body></html>
