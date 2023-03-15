@@ -59,14 +59,14 @@
         </thead>
         <tbody class="text-bg-dark">
           <tr v-for="item in list" :key="item.rank" class="table table-dark">
-            <td><input type="checkbox" :value=item.movieNm v-model="checklist"></td>
+            <td><input class="rounded mx-auto d-block" type="checkbox" :value=item.movieNm v-model="checklist"></td>
             <td class="text-center">{{ item.rank }}</td>
-            <td><img v-bind:src="imgurl[item.rnum - 1]" /></td>
+            <td><img class="rounded mx-auto d-block" v-bind:src="imgurl[item.rnum - 1]" /></td>
             <td class="text-center"> <a href="#" data-bs-toggle="modal" data-bs-target="#moviemodal"
                 v-on:click="searchInfo(item.movieCd)">{{ item.movieNm }}</a> </td>
             <td class="text-center">{{ item.audiAcc }}</td>
             <td class="text-center">{{ item.openDt }}</td>
-            <td><button type="button" class="btn btn-danger" v-on:click="removeRow(item.rank)">삭제</button></td>
+            <td><button type="button" class="btn btn-danger rounded mx-auto d-block" v-on:click="removeRow(item.rank)">삭제</button></td>
           </tr>
 
         </tbody>
@@ -77,8 +77,6 @@
 </template>
 
 <script>
-
-
 export default{
     data() {
         return {
@@ -166,9 +164,3 @@ export default{
     }
 
 </script>
-
-<style>
-.right {
-    float: right;
-}
-</style>
